@@ -19,44 +19,10 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 15px;
             background: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
-        }
-
-        .navbar {
-            background-color: var(--primary-color);
-            padding: 15px;
-            display: flex;
-            justify-content: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-options {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-option {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 6px;
-            transition: background-color 0.3s;
-        }
-
-        .nav-option:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .nav-option.active {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .main-content {
-            padding: 15px;
         }
 
         .container {
@@ -133,50 +99,8 @@
             background-color: rgba(231, 76, 60, 0.1);
         }
 
-        .news-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .news-item {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 15px;
-            transition: transform 0.3s;
-        }
-
-        .news-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .news-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--primary-color);
-        }
-
-        .news-source {
-            font-size: 0.8rem;
-            color: #7f8c8d;
-            margin-top: 5px;
-        }
-
-        .youtube-container {
-            margin-top: 20px;
-        }
-
-        .youtube-video {
-            width: 100%;
-            aspect-ratio: 16/9;
-            border-radius: var(--border-radius);
-            border: none;
-        }
-
         @media (max-width: 600px) {
-            .main-content {
+            body {
                 padding: 10px;
             }
             
@@ -191,15 +115,6 @@
             .price {
                 font-size: 0.9rem;
             }
-
-            .nav-options {
-                gap: 10px;
-            }
-
-            .nav-option {
-                padding: 6px 12px;
-                font-size: 0.9rem;
-            }
         }
 
         /* Loading animation */
@@ -209,68 +124,25 @@
             100% { opacity: 0.6; }
         }
 
-        #stocks.loading, #crypto.loading, #news.loading, #youtube.loading {
+        #stocks.loading, #crypto.loading {
             animation: pulse 1.5s infinite;
-        }
-
-        .hidden {
-            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="nav-options">
-            <a href="#" class="nav-option active" onclick="showTab('market')">Live Market Data</a>
-            <a href="#" class="nav-option" onclick="showTab('news')">Stock Market News & Videos</a>
-        </div>
-    </div>
-
-    <div class="main-content">
-        <!-- Market Data Tab -->
-        <div id="market-tab">
-            <div class="container">
-                <h2>📊 Live Stock Prices (NSE/BSE)</h2>
-                <div id="stocks" class="stock loading">
-                    Loading stock data...
-                </div>
-
-                <h2>₿ Top 10 Cryptocurrencies</h2>
-                <div id="crypto" class="crypto loading">
-                    Loading crypto data...
-                </div>
-            </div>
+    <div class="container">
+        <h2>📊 Live Stock Prices (NSE/BSE) os.  </h2>
+        <div id="stocks" class="stock loading">
+            Loading stock data...
         </div>
 
-        <!-- News & Videos Tab -->
-        <div id="news-tab" class="hidden">
-            <div class="container">
-                <h2>📰 Latest Stock Market News</h2>
-                <div id="news" class="loading">
-                    Loading news...
-                </div>
-
-                <h2>▶️ Live Market Updates on YouTube</h2>
-                <div id="youtube" class="youtube-container loading">
-                    Loading YouTube videos...
-                </div>
-            </div>
+        <h2>₿ Top 10 Cryptocurrencies</h2>
+        <div id="crypto" class="crypto loading">
+            Loading crypto data...
         </div>
     </div>
 
     <script>
-        // Tab navigation
-        function showTab(tabName) {
-            document.querySelectorAll('.nav-option').forEach(option => {
-                option.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            document.getElementById('market-tab').classList.add('hidden');
-            document.getElementById('news-tab').classList.add('hidden');
-            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
-        }
-
         // Fetch Stock Data (Using Alpha Vantage API)
         async function fetchStocks() {
             const stocksElement = document.getElementById('stocks');
@@ -333,104 +205,13 @@
             }
         }
 
-        // Fetch Market News
-        async function fetchNews() {
-            const newsElement = document.getElementById('news');
-            newsElement.classList.remove('loading');
-            
-            try {
-                // In a real app, you would use a news API here
-                // This is a mock implementation with placeholder news
-                const mockNews = [
-                    {
-                        title: "Sensex jumps 500 points as banking stocks rally",
-                        source: "Economic Times - 10 minutes ago"
-                    },
-                    {
-                        title: "RBI announces new measures to boost liquidity",
-                        source: "Business Standard - 25 minutes ago"
-                    },
-                    {
-                        title: "Tech stocks lead gains in Asian markets",
-                        source: "Reuters - 1 hour ago"
-                    },
-                    {
-                        title: "Gold prices fall as dollar strengthens",
-                        source: "Moneycontrol - 2 hours ago"
-                    },
-                    {
-                        title: "Government announces new infrastructure spending",
-                        source: "Livemint - 3 hours ago"
-                    }
-                ];
-                
-                let html = '<div class="news-container">';
-                mockNews.forEach(news => {
-                    html += `
-                        <div class="news-item">
-                            <div class="news-title">${news.title}</div>
-                            <div class="news-source">${news.source}</div>
-                        </div>
-                    `;
-                });
-                html += '</div>';
-                
-                newsElement.innerHTML = html;
-            } catch (error) {
-                newsElement.innerHTML = "<div class='data-item'>Failed to load news. Try later.</div>";
-            }
-        }
-
-        // Fetch YouTube Videos
-        async function fetchYouTube() {
-            const youtubeElement = document.getElementById('youtube');
-            youtubeElement.classList.remove('loading');
-            
-            try {
-                // In a real app, you would use the YouTube API here
-                // This is a mock implementation with placeholder videos
-                const mockVideos = [
-                    {
-                        title: "Market Live: Sensex, Nifty Today | Stock Market Updates",
-                        id: "dQw4w9WgXcQ" // Placeholder ID
-                    },
-                    {
-                        title: "Today's Top Stocks to Watch | Market Analysis",
-                        id: "dQw4w9WgXcQ" // Placeholder ID
-                    }
-                ];
-                
-                let html = '<div class="news-container">';
-                mockVideos.forEach(video => {
-                    html += `
-                        <div class="news-item">
-                            <div class="news-title">${video.title}</div>
-                            <iframe class="youtube-video" src="https://www.youtube.com/embed/${video.id}" 
-                                    title="${video.title}" frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                    allowfullscreen></iframe>
-                        </div>
-                    `;
-                });
-                html += '</div>';
-                
-                youtubeElement.innerHTML = html;
-            } catch (error) {
-                youtubeElement.innerHTML = "<div class='data-item'>Failed to load videos. Try later.</div>";
-            }
-        }
-
         // Initial fetch
         fetchStocks();
         fetchCrypto();
-        fetchNews();
-        fetchYouTube();
         
-        // Refresh data periodically
+        // Refresh every 5 seconds (5000ms)
         setInterval(fetchStocks, 5000);
         setInterval(fetchCrypto, 5000);
-        setInterval(fetchNews, 30000);
-        setInterval(fetchYouTube, 30000);
     </script>
 </body>
 </html>
@@ -559,4 +340,4 @@
         setInterval(fetchCrypto, 60000);
     </script>
 </body>
-</html>--
+</html>-->
